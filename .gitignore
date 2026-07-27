@@ -1,4 +1,25 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
+# Python Caches & Byte-compiled files
+**/__pycache__/
 *.py[cod]
 *$py.class
+
+# Data Directory (abaikan dataset mentah & hasil pemrosesan jika ukurannya besar/sensitif)
+data/processed/
+data/raw/
+
+# Virtual Environment
+venv/
+.venv/
+env/
+
+# IDE & Editor Settings
+.vscode/
+.idea/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Ignore subfolder processed dan raw di dalam folder data
+data/processed/
+data/raw/
