@@ -1,17 +1,20 @@
 """
 main.py — Entry Point CLI untuk Pipeline Preprocessing
 =======================================================
-Script utama untuk menjalankan pipeline preprocessing.
+Script utama untuk menjalankan pipeline preprocessing 2 tahap.
 
 Cara pakai:
   $ python main.py
 
 Flow:
   1. Jalankan script
-  2. Masukkan path file CSV yang berisi data temuan
+  2. Pilih file CSV melalui dialog browser
   3. File CSV dicopy ke folder data/raw/
-  4. Pipeline preprocessing dijalankan otomatis
-  5. Hasil disimpan ke folder data/processed/
+  4. Tahap 1: Text Cleaning & HTML Preservation
+  5. Tahap 2: Feature Extraction via IndoBERT
+  6. Hasil disimpan ke folder data/processed/
+     - *_cleaned.csv  : teks bersih
+     - *_embeddings.npy: vektor embedding 768-dim
 """
 
 import logging
@@ -42,12 +45,14 @@ def setup_logging():
 def print_header():
     """Tampilkan header aplikasi."""
     print(f"\n{'='*60}")
-    print(f"  PREPROCESSING PIPELINE")
+    print(f"  PREPROCESSING PIPELINE (2 Tahap)")
     print(f"  Auto-Severity Classification (Web Simata)")
     print(f"{'='*60}")
-    print(f"  Silakan pilih file CSV melalui dialog yang muncul.")
-    print(f"  File akan dicopy ke data/raw/ dan diproses otomatis.")
-    print(f"  Hasil preprocessing disimpan ke data/processed/")
+    print(f"  Tahap 1: Text Cleaning & HTML Preservation")
+    print(f"  Tahap 2: Feature Extraction (IndoBERT)")
+    print(f"{'='*60}")
+    print(f"  Pilih file CSV melalui dialog yang muncul.")
+    print(f"  Hasil disimpan ke data/processed/")
     print(f"{'='*60}\n")
 
 
@@ -182,10 +187,21 @@ def print_summary(result_df, raw_path, output_path):
     print(f"\n{'='*60}")
     print(f"  RINGKASAN HASIL")
     print(f"{'='*60}")
-    print(f"  Total baris diproses  : {len(result_df)}")
-    print(f"  Kolom output          : '{config.OUTPUT_COLUMN}'")
-    print(f"  File raw (input)      : {raw_path}")
+    print(f"  Total baris diproses   : {len(result_df)}")
+    print(f"  Kolom output           : '{config.OUTPUT_COLUMN}'")
+    print(f"  File raw (input)       : {raw_path}")
     print(f"  File processed (output): {output_path}")
+
+    # Info embedding
+    npy_path = output_path.replace(".csv", "_embeddings.npy")
+    if os.path.exists(npy_path):
+        import numpy as np
+        emb = np.load(npy_path)
+        print(f"  Embedding file         : {npy_path}")
+        print(f"  Embedding shape        : {emb.shape}")
+    else:
+        print(f"  Embedding              : Tidak tersedia")
+
     print(f"{'='*60}")
 
     # Tampilkan sample hasil (5 baris pertama)
@@ -206,7 +222,7 @@ def print_summary(result_df, raw_path, output_path):
 def main():
     """
     Entry point utama.
-    Flow: Input path CSV → Copy ke raw → Preprocessing → Simpan ke processed.
+    Flow: Input CSV → Copy ke raw → Preprocessing (2 tahap) → Simpan ke processed.
     """
     # Setup logging
     setup_logging()
@@ -222,7 +238,7 @@ def main():
     raw_path = copy_to_raw(csv_path)
     print(f"  [OK] File dicopy ke : {raw_path}")
 
-    # Step 3: Jalankan preprocessing
+    # Step 3: Jalankan preprocessing (2 tahap)
     result_df, output_path = run_preprocessing(raw_path)
 
     # Step 4: Tampilkan ringkasan

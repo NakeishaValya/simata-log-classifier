@@ -1,89 +1,80 @@
 """
 preprocessing/pipeline.py — Pipeline Orchestrator
 ===================================================
-Modul orchestrator yang menjalankan seluruh 5 tahap preprocessing
+Modul orchestrator yang menjalankan 2 tahap preprocessing
 secara berurutan pada satu teks atau seluruh DataFrame sekaligus.
 
-Pipeline Flow:
+Pipeline Flow (2 Tahap):
   Input Text (raw)
       │
-      ├─ Tahap 1: Word Segmentation & Boundary Splitting
-      ├─ Tahap 2: Case Folding (Lowercasing)
-      ├─ Tahap 3: Regex Cleaning
-      ├─ Tahap 4: Dynamic Slang Normalization
-      └─ Tahap 5: Filtering & Custom Stopwords
+      ├─ Tahap 1: Text Cleaning & HTML Preservation (Regex Engine)
+      │     ├─ Tag HTML → token [HTML_TAG]
+      │     ├─ Pisahkan list 1), 2., CamelCase, huruf-angka
+      │     ├─ Hapus ID/kode komponen ≥ 5 digit
+      │     └─ Lowercasing (Case Folding)
       │
-  Output Text (clean)
+      └─ Tahap 2: Feature Extraction & Embedding (IndoBERT Encoder)
+            ├─ WordPiece Tokenizer membaca teks bersih
+            ├─ IndoBERT memetakan slang/singkatan ke vektor konteks
+            └─ Output: embedding vector 768-dim per teks
+      │
+  Output: DataFrame (cleaned_text + embeddings)
 """
 
 import logging
+import os
+
+import numpy as np
 import pandas as pd
 from tqdm import tqdm
 
 import config
-from preprocessing.word_segmenter import WordSegmenter
-from preprocessing.case_folder import CaseFolder
-from preprocessing.regex_cleaner import RegexCleaner
-from preprocessing.slang_normalizer import SlangNormalizer
-from preprocessing.stopword_filter import StopwordFilter
+from preprocessing.text_cleaner import TextCleaner
+from preprocessing.feature_extractor import FeatureExtractor
 
 logger = logging.getLogger(__name__)
 
 
 class PreprocessingPipeline:
     """
-    Orchestrator untuk 5 tahap preprocessing teks.
-    Menginisialisasi seluruh modul dan menjalankannya secara berurutan.
-    Mendukung pemrosesan teks tunggal maupun batch (DataFrame).
+    Orchestrator untuk 2 tahap preprocessing teks.
+
+    Tahap 1 (Text Cleaning) selalu dijalankan.
+    Tahap 2 (Feature Extraction) bersifat opsional — hanya dijalankan
+    jika toggle 'feature_extraction' aktif di config.
     """
 
-    def __init__(
-        self,
-        freq_dict_path: str = None,
-        slang_dict_path: str = None,
-        custom_whitelist: set = None,
-    ):
+    def __init__(self):
         """
         Inisialisasi pipeline dengan seluruh modul preprocessing.
-
-        Args:
-            freq_dict_path:   Path frequency dictionary untuk word segmentation.
-            slang_dict_path:  Path kamus slang untuk normalisasi.
-            custom_whitelist: Set kata tambahan yang harus dipertahankan
-                              oleh stopword filter.
         """
         logger.info("=" * 60)
-        logger.info("Inisialisasi PreprocessingPipeline...")
+        logger.info("Inisialisasi PreprocessingPipeline (2 tahap)...")
         logger.info("=" * 60)
 
-        # Inisialisasi seluruh modul preprocessing
-        self.word_segmenter = WordSegmenter(freq_dict_path=freq_dict_path)
-        self.case_folder = CaseFolder()
-        self.regex_cleaner = RegexCleaner()
-        self.slang_normalizer = SlangNormalizer(slang_dict_path=slang_dict_path)
-        self.stopword_filter = StopwordFilter(custom_whitelist=custom_whitelist)
+        # Tahap 1: Text Cleaning (selalu aktif)
+        self.text_cleaner = TextCleaner()
 
-        # Daftar tahap pipeline beserta toggle dari config
-        self._stages = [
-            ("word_segmentation", "Tahap 1: Word Segmentation", self.word_segmenter),
-            ("case_folding", "Tahap 2: Case Folding", self.case_folder),
-            ("regex_cleaning", "Tahap 3: Regex Cleaning", self.regex_cleaner),
-            ("slang_normalization", "Tahap 4: Slang Normalization", self.slang_normalizer),
-            ("stopword_filtering", "Tahap 5: Stopword Filtering", self.stopword_filter),
-        ]
+        # Tahap 2: Feature Extraction (opsional)
+        self.feature_extractor = None
+        if config.PIPELINE_STAGES.get("feature_extraction", True):
+            try:
+                self.feature_extractor = FeatureExtractor()
+                logger.info("Tahap 2 (Feature Extraction) aktif.")
+            except Exception as e:
+                logger.warning(
+                    "Gagal menginisialisasi FeatureExtractor: %s. "
+                    "Pipeline akan berjalan tanpa embedding.",
+                    str(e),
+                )
+        else:
+            logger.info("Tahap 2 (Feature Extraction) dinonaktifkan di config.")
 
-        logger.info("Pipeline siap dengan %d tahap aktif.", self._count_active_stages())
-
-    def _count_active_stages(self) -> int:
-        """Menghitung jumlah tahap yang aktif berdasarkan config."""
-        return sum(
-            1 for key, _, _ in self._stages
-            if config.PIPELINE_STAGES.get(key, True)
-        )
+        logger.info("Pipeline siap.")
 
     def preprocess_text(self, text: str, verbose: bool = False) -> str:
         """
-        Memproses satu teks melalui seluruh tahap pipeline.
+        Memproses satu teks melalui Tahap 1 (Text Cleaning).
 
         Args:
             text:    Teks mentah input (Log Temuan).
@@ -100,22 +91,16 @@ class PreprocessingPipeline:
             print(f"INPUT : {text}")
             print(f"{'='*60}")
 
-        current_text = text
-
-        for stage_key, stage_name, stage_module in self._stages:
-            # Cek apakah tahap ini diaktifkan di config
-            if not config.PIPELINE_STAGES.get(stage_key, True):
-                logger.info("SKIP  : %s (dinonaktifkan di config)", stage_name)
-                if verbose:
-                    print(f"  SKIP  : {stage_name}")
-                continue
-
-            # Jalankan tahap preprocessing
-            current_text = stage_module.process(current_text)
-
+        # Tahap 1: Text Cleaning
+        if config.PIPELINE_STAGES.get("text_cleaning", True):
+            current_text = self.text_cleaner.process(text)
             if verbose:
-                print(f"  {stage_name}")
+                print(f"  Tahap 1: Text Cleaning & HTML Preservation")
                 print(f"    -> {current_text}")
+        else:
+            current_text = text
+            if verbose:
+                print(f"  SKIP : Tahap 1 (dinonaktifkan)")
 
         if verbose:
             print(f"{'='*60}")
@@ -134,8 +119,8 @@ class PreprocessingPipeline:
         """
         Memproses seluruh DataFrame melalui pipeline preprocessing.
 
-        Menambahkan kolom baru berisi teks yang sudah diproses.
-        Menampilkan progress bar via tqdm untuk monitoring batch.
+        Tahap 1: Text Cleaning → kolom cleaned_text
+        Tahap 2: Feature Extraction → file embedding .npy terpisah
 
         Args:
             df:            DataFrame pandas berisi data temuan.
@@ -163,13 +148,32 @@ class PreprocessingPipeline:
         # Buat copy agar tidak mengubah DataFrame asli
         result_df = df.copy()
 
-        # Proses setiap baris dengan progress bar
-        tqdm.pandas(desc="Preprocessing")
+        # ---- Tahap 1: Text Cleaning ----
+        print("\n  [Tahap 1/2] Text Cleaning & HTML Preservation...")
+        tqdm.pandas(desc="  Text Cleaning")
         result_df[output_col] = result_df[input_col].progress_apply(
             lambda text: self.preprocess_text(
                 str(text) if pd.notna(text) else "", verbose=verbose
             )
         )
+
+        # ---- Tahap 2: Feature Extraction (IndoBERT) ----
+        if self.feature_extractor is not None:
+            print("\n  [Tahap 2/2] Feature Extraction (IndoBERT)...")
+            try:
+                texts = result_df[output_col].tolist()
+                embeddings = self.feature_extractor.extract_embeddings_batch(texts)
+                # Simpan embedding sebagai atribut di DataFrame
+                result_df.attrs["embeddings"] = embeddings
+                result_df.attrs["embedding_dim"] = embeddings.shape[1]
+                logger.info(
+                    "Feature Extraction selesai. Shape: %s", embeddings.shape
+                )
+            except Exception as e:
+                logger.error("Feature Extraction gagal: %s", str(e))
+                print(f"  [!] Feature Extraction gagal: {e}")
+        else:
+            print("\n  [Tahap 2/2] Feature Extraction — DILEWATI")
 
         # Statistik hasil
         empty_count = (result_df[output_col] == "").sum()
@@ -189,7 +193,7 @@ class PreprocessingPipeline:
         verbose: bool = False,
     ) -> pd.DataFrame:
         """
-        Shortcut: baca CSV → preprocess → simpan CSV.
+        Shortcut: baca CSV → preprocess → simpan CSV + embedding .npy.
 
         Args:
             input_path:    Path file CSV input.
@@ -210,10 +214,16 @@ class PreprocessingPipeline:
         )
 
         if output_path:
-            # Pastikan direktori output ada
-            import os
             os.makedirs(os.path.dirname(output_path), exist_ok=True)
+
+            # Simpan CSV (teks bersih)
             result_df.to_csv(output_path, index=False, encoding="utf-8")
-            logger.info("Hasil disimpan ke: %s", output_path)
+            logger.info("Hasil teks bersih disimpan ke: %s", output_path)
+
+            # Simpan embedding sebagai .npy jika ada
+            if "embeddings" in result_df.attrs:
+                npy_path = output_path.replace(".csv", "_embeddings.npy")
+                np.save(npy_path, result_df.attrs["embeddings"])
+                logger.info("Embedding disimpan ke: %s", npy_path)
 
         return result_df

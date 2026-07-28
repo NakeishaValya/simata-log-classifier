@@ -1,143 +1,118 @@
 """
-preprocessing/slang_normalizer.py — Tahap 4: Dynamic Slang Normalization
-=========================================================================
-Modul ini menormalisasi kata-kata slang, singkatan, dan bahasa tidak baku
-yang umum digunakan oleh tester/QA menjadi kata baku Bahasa Indonesia.
+preprocessing/slang_normalizer.py — Normalisasi Slang
+=====================================================
+Menormalisasi kata slang/singkatan ke bentuk baku Bahasa Indonesia.
 
-Teknologi/Algoritma:
-  - Hash Map Lookup (Python dict) — O(1) time complexity per lookup
-  - pandas untuk loading kamus dari CSV
-  - Pendekatan dictionary-based (bukan hardcoded) agar mudah di-extend
-
-Contoh transformasi:
-  "yg"        → "yang"
-  "blm"       → "belum"
-  "tdk"       → "tidak"
-  "strukdat"  → "struktur data"
+Pendekatan:
+  - Dictionary lookup dari CSV lokal
+  - Tokenisasi dengan nlp_id bila tersedia
+  - Fallback aman ke split biasa jika dependency tidak bisa dipakai
 """
 
 import logging
+import os
+import re
+import urllib.parse
+
 import pandas as pd
 
 import config
+
+try:
+    from nlp_id.tokenizer import Tokenizer as NlpIdTokenizer
+except Exception:  # pragma: no cover
+    NlpIdTokenizer = None
 
 logger = logging.getLogger(__name__)
 
 
 class SlangNormalizer:
-    """
-    Menormalisasi kata slang/singkatan menjadi kata baku menggunakan
-    dictionary lookup. Kamus dimuat dari file CSV eksternal sehingga
-    bisa diperluas tanpa mengubah kode.
-    """
+    """Normalisasi slang berbasis kamus."""
 
     def __init__(self, slang_dict_path: str = None):
-        """
-        Inisialisasi SlangNormalizer.
+        default_path = getattr(
+            config,
+            "SLANG_DICT_PATH",
+            os.path.join(os.path.dirname(os.path.dirname(__file__)), "data", "dictionaries", "kamus_slang.csv"),
+        )
+        self.slang_dict_path = slang_dict_path or default_path
+        self._slang_dict = None
+        self._tokenizer = self._init_tokenizer()
+        logger.info("SlangNormalizer diinisialisasi dengan sumber: %s", self.slang_dict_path)
 
-        Args:
-            slang_dict_path: Path ke file CSV kamus slang.
-                             Format CSV: kolom 'slang' dan 'baku'.
-                             Default menggunakan path dari config.py.
-        """
-        self.slang_dict_path = slang_dict_path or config.SLANG_DICT_PATH
-        self._slang_dict = None  # Lazy loading
-        logger.info("SlangNormalizer diinisialisasi.")
+    def _is_url(self, path: str) -> bool:
+        parsed = urllib.parse.urlparse(path)
+        return parsed.scheme in ("http", "https")
+
+    def _init_tokenizer(self):
+        if NlpIdTokenizer is None:
+            logger.warning(
+                "nlp_id tidak tersedia. Slang normalizer menggunakan tokenisasi split biasa."
+            )
+            return None
+        try:
+            tokenizer = NlpIdTokenizer()
+            logger.info("Tokenizer nlp_id berhasil diinisialisasi.")
+            return tokenizer
+        except Exception as exc:
+            logger.warning("Gagal inisialisasi tokenizer nlp_id (%s). Fallback ke split biasa.", exc)
+            return None
 
     def _load_slang_dict(self) -> dict:
-        """
-        Lazy loading kamus slang dari file CSV ke Python dict (HashMap).
-
-        File CSV harus memiliki dua kolom:
-        - 'slang': kata slang/singkatan (key)
-        - 'baku' : kata baku pengganti (value)
-
-        Returns:
-            Dictionary mapping {slang: baku}.
-
-        Raises:
-            FileNotFoundError: Jika file kamus tidak ditemukan.
-        """
         if self._slang_dict is None:
             logger.info("Memuat kamus slang dari: %s", self.slang_dict_path)
             try:
                 df = pd.read_csv(self.slang_dict_path, encoding="utf-8")
-                # Konversi ke dict: key=slang (lowercase), value=baku
+
+                if not {"slang", "baku"}.issubset(df.columns):
+                    raise ValueError("CSV kamus slang harus memiliki kolom 'slang' dan 'baku'")
+
                 self._slang_dict = dict(
                     zip(
-                        df["slang"].str.strip().str.lower(),
-                        df["baku"].str.strip().str.lower(),
+                        df["slang"].astype(str).str.strip().str.lower(),
+                        df["baku"].astype(str).str.strip().str.lower(),
                     )
                 )
-                logger.info(
-                    "Kamus slang berhasil dimuat: %d entri.", len(self._slang_dict)
-                )
+                logger.info("Kamus slang berhasil dimuat: %d entri.", len(self._slang_dict))
             except FileNotFoundError:
-                logger.error(
-                    "File kamus slang tidak ditemukan: %s", self.slang_dict_path
-                )
+                logger.error("File kamus slang tidak ditemukan: %s", self.slang_dict_path)
                 self._slang_dict = {}
-            except Exception as e:
-                logger.error("Gagal memuat kamus slang: %s", str(e))
+            except Exception as exc:
+                logger.error("Gagal memuat kamus slang: %s", exc)
                 self._slang_dict = {}
         return self._slang_dict
 
+    def _tokenize(self, text: str):
+        if self._tokenizer is not None:
+            try:
+                return self._tokenizer.tokenize(text)
+            except Exception as exc:
+                logger.warning("Tokenisasi nlp_id gagal (%s). Fallback ke split biasa.", exc)
+        return text.split()
+
+    @staticmethod
+    def _detokenize(tokens: list) -> str:
+        text = " ".join(tokens)
+        text = re.sub(r"\s+([,.;:!?])", r"\1", text)
+        text = re.sub(r"([([{])\s+", r"\1", text)
+        text = re.sub(r"\s+([)\]}])", r"\1", text)
+        return text
+
     def normalize_slang(self, text: str) -> str:
-        """
-        Menormalisasi kata slang/singkatan dalam teks menjadi kata baku.
-
-        Proses:
-        1. Tokenisasi teks berdasarkan spasi
-        2. Lookup setiap token di kamus slang (O(1) per token)
-        3. Ganti token yang cocok dengan kata baku
-        4. Rekonstruksi teks dari token-token
-
-        Contoh: "yg blm bisa login" → "yang belum bisa login"
-
-        Args:
-            text: Teks input yang mungkin mengandung slang.
-
-        Returns:
-            Teks dengan slang yang sudah dinormalisasi ke kata baku.
-        """
         slang_dict = self._load_slang_dict()
         if not slang_dict:
             return text
 
-        tokens = text.split()
+        tokens = self._tokenize(text)
         normalized_tokens = []
-
         for token in tokens:
-            # Lookup token di kamus slang (case-insensitive, sudah lowercase)
-            replacement = slang_dict.get(token.lower(), token)
-            if replacement != token:
-                logger.debug("Normalisasi slang: '%s' → '%s'", token, replacement)
-            normalized_tokens.append(replacement)
-
-        return " ".join(normalized_tokens)
+            normalized_tokens.append(slang_dict.get(token.lower(), token))
+        return self._detokenize(normalized_tokens)
 
     def get_dict_size(self) -> int:
-        """
-        Mengembalikan jumlah entri dalam kamus slang.
-
-        Returns:
-            Jumlah mapping slang → baku yang dimuat.
-        """
         return len(self._load_slang_dict())
 
     def process(self, text: str) -> str:
-        """
-        Method utama: menjalankan normalisasi slang.
-
-        Args:
-            text: Teks input.
-
-        Returns:
-            Teks yang sudah dinormalisasi.
-        """
         if not isinstance(text, str) or not text.strip():
             return ""
-
-        result = self.normalize_slang(text)
-        logger.debug("Slang Normalization selesai: '%s'", result[:80])
-        return result
+        return self.normalize_slang(text)
