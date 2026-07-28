@@ -23,3 +23,9 @@ Thumbs.db
 # Ignore subfolder processed dan raw di dalam folder data
 data/processed/
 data/raw/
+
+# Trained Models (large binary files)
+models/
+
+# Jupyter Notebook Checkpoints
+.ipynb_checkpoints/
