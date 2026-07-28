@@ -46,6 +46,7 @@ PIPELINE_STAGES = {
 # Model IndoBERT dari HuggingFace
 INDOBERT_MODEL_NAME = "indobenchmark/indobert-base-p1"
 INDOBERT_MAX_LENGTH = 128   # Panjang maksimum token (128 cukup untuk bug reports)
+INDOBERT_BATCH_SIZE = 32    # Ukuran batch embedding untuk inference CPU/GPU
 
 # ======================================================================
 # LOGGING CONFIGURATION

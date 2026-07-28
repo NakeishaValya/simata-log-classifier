@@ -22,6 +22,7 @@ Contoh:
 
 import logging
 import numpy as np
+from tqdm import tqdm
 
 logger = logging.getLogger(__name__)
 
@@ -170,7 +171,7 @@ class FeatureExtractor:
         # Konversi ke numpy array di CPU
         return cls_embedding.cpu().numpy()
 
-    def extract_embeddings_batch(self, texts: list, batch_size: int = 16) -> np.ndarray:
+    def extract_embeddings_batch(self, texts: list, batch_size: int = None) -> np.ndarray:
         """
         Mengekstrak embedding untuk batch teks sekaligus.
         Lebih efisien daripada memanggil extract_embedding() per teks.
@@ -183,13 +184,18 @@ class FeatureExtractor:
             numpy array shape (n_texts, 768).
         """
         import torch
+        import config
 
         self._load_model()
 
-        all_embeddings = []
+        effective_batch_size = batch_size or config.INDOBERT_BATCH_SIZE
 
-        for i in range(0, len(texts), batch_size):
-            batch_texts = texts[i : i + batch_size]
+        all_embeddings = []
+        total_batches = (len(texts) + effective_batch_size - 1) // effective_batch_size
+
+        batch_iter = range(0, len(texts), effective_batch_size)
+        for i in tqdm(batch_iter, total=total_batches, desc="  IndoBERT Embedding"):
+            batch_texts = texts[i : i + effective_batch_size]
 
             # Ganti teks kosong dengan placeholder
             batch_texts = [t if t and t.strip() else "[PAD]" for t in batch_texts]
@@ -211,8 +217,8 @@ class FeatureExtractor:
 
             logger.debug(
                 "Batch %d/%d selesai (%d teks).",
-                i // batch_size + 1,
-                (len(texts) + batch_size - 1) // batch_size,
+                i // effective_batch_size + 1,
+                total_batches,
                 len(batch_texts),
             )
 
