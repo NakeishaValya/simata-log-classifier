@@ -43,6 +43,8 @@ RAW_TRAIN_NAME = "train_data.csv"
 RAW_TEST_NAME = "test_data.csv"
 PROCESSED_TRAIN_NAME = "train_cleaned.csv"
 PROCESSED_TEST_NAME = "test_cleaned.csv"
+OUTPUT_DIR = os.path.join(config.DATA_DIR, "output")   # data/output/
+PREDICTION_NAME = "test_prediction.csv"
 
 
 # ======================================================================
@@ -329,7 +331,14 @@ def run_training(train_csv: str, test_csv: str):
     print(f"  Test data : {test_csv}")
     print(f"{'='*60}")
 
+    os.makedirs(OUTPUT_DIR, exist_ok=True)
+
     trainer = ModelTrainer(train_csv=train_csv, test_csv=test_csv)
+
+    # Patch predict_only to use the configured OUTPUT_DIR
+    _original_predict_only = trainer.predict_only
+    trainer.predict_only = lambda: _original_predict_only(output_dir=OUTPUT_DIR)
+
     trainer.run()
 
 

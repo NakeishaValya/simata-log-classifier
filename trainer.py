@@ -101,7 +101,12 @@ class ModelTrainer:
     # Load data
     # ------------------------------------------------------------------
     def load_data(self):
-        """Load train dan test CSV yang sudah dipreprocess."""
+        """Load train dan test CSV yang sudah dipreprocess.
+
+        Train: wajib memiliki kolom Kategori (dropna diterapkan).
+        Test : Kategori bersifat opsional — jika kosong/tidak ada,
+               pipeline beralih ke mode prediksi (has_test_labels=False).
+        """
         print(f"\n  Memuat data train: {self.train_csv}")
         self.df_train = pd.read_csv(self.train_csv, encoding="utf-8")
         self.df_train = self.df_train.dropna(
@@ -110,33 +115,48 @@ class ModelTrainer:
 
         print(f"  Memuat data test : {self.test_csv}")
         self.df_test = pd.read_csv(self.test_csv, encoding="utf-8")
+        # Untuk test: hanya buang baris yang tidak punya teks — label opsional
         self.df_test = self.df_test.dropna(
-            subset=[config.OUTPUT_COLUMN, config.LABEL_COLUMN]
+            subset=[config.OUTPUT_COLUMN]
         ).reset_index(drop=True)
 
-        # Encode labels (fit pada gabungan train+test agar konsisten)
-        all_labels = pd.concat(
-            [self.df_train[config.LABEL_COLUMN], self.df_test[config.LABEL_COLUMN]]
-        )
-        self.le.fit(all_labels)
+        # Deteksi apakah test set memiliki label yang valid
+        has_label_col = config.LABEL_COLUMN in self.df_test.columns
+        if has_label_col:
+            valid_labels = self.df_test[config.LABEL_COLUMN].dropna()
+            self.has_test_labels = len(valid_labels) > 0
+        else:
+            self.has_test_labels = False
+
+        # Encode labels hanya dari train (test mungkin tidak punya label)
+        self.le.fit(self.df_train[config.LABEL_COLUMN])
         self.num_classes = len(self.le.classes_)
 
         self.y_train = self.le.transform(self.df_train[config.LABEL_COLUMN])
-        self.y_test = self.le.transform(self.df_test[config.LABEL_COLUMN])
         self.X_train_text = self.df_train[config.OUTPUT_COLUMN].values
         self.X_test_text = self.df_test[config.OUTPUT_COLUMN].values
+
+        if self.has_test_labels:
+            self.y_test = self.le.transform(self.df_test[config.LABEL_COLUMN])
+        else:
+            self.y_test = None
 
         print(f"\n  Train: {len(self.X_train_text)} baris")
         print(f"  Test : {len(self.X_test_text)} baris")
         print(f"  Kelas: {list(self.le.classes_)} ({self.num_classes} kelas)")
         print(f"  Device: {self.device}")
+        print(f"  Mode  : {'Evaluasi (label tersedia)' if self.has_test_labels else 'Prediksi (tanpa label)'}")
 
         print(f"\n  Distribusi label (Train):")
         for i, cls in enumerate(self.le.classes_):
             print(f"    {cls}: {(self.y_train == i).sum()}")
-        print(f"  Distribusi label (Test):")
-        for i, cls in enumerate(self.le.classes_):
-            print(f"    {cls}: {(self.y_test == i).sum()}")
+
+        if self.has_test_labels:
+            print(f"  Distribusi label (Test):")
+            for i, cls in enumerate(self.le.classes_):
+                print(f"    {cls}: {(self.y_test == i).sum()}")
+        else:
+            print(f"  Test labels: tidak tersedia — mode prediksi aktif")
 
     # ------------------------------------------------------------------
     # Model A: IndoBERT Fine-Tuned
@@ -257,27 +277,32 @@ class ModelTrainer:
         print("  [OK] XGBoost training selesai.\n")
 
     # ------------------------------------------------------------------
-    # Test & Evaluate
+    # Shared: run inference on X_test_text, return ensemble predictions
     # ------------------------------------------------------------------
-    def test_all_models(self):
-        """Evaluasi semua model pada test set dan tampilkan perbandingan."""
-        print(f"\n{'='*60}")
-        print(f"  EVALUASI PADA TEST SET")
-        print(f"{'='*60}")
+    def _run_inference(self):
+        """
+        Jalankan inferensi semua model pada self.X_test_text.
 
+        Returns:
+            tuple: (all_probs_bert, probs_svc, probs_xgb,
+                    all_preds_bert, preds_svc, preds_xgb,
+                    ensemble_preds, ensemble_probs, W_BERT, W_SVC, W_XGB)
+        """
         X_test_tfidf = self.tfidf.transform(self.X_test_text)
 
         # --- IndoBERT ---
         self.model_bert.eval()
+        # SeverityDataset memerlukan label; gunakan placeholder nol
+        dummy_labels = np.zeros(len(self.X_test_text), dtype=int)
         test_ds = SeverityDataset(
-            self.X_test_text, self.y_test, self.tokenizer, config.INDOBERT_MAX_LENGTH
+            self.X_test_text, dummy_labels, self.tokenizer, config.INDOBERT_MAX_LENGTH
         )
         test_loader = DataLoader(test_ds, batch_size=16, shuffle=False)
 
         all_preds_bert = []
         all_probs_bert = []
         with torch.no_grad():
-            for batch in tqdm(test_loader, desc="  IndoBERT Test"):
+            for batch in tqdm(test_loader, desc="  IndoBERT Inferensi"):
                 input_ids = batch["input_ids"].to(self.device)
                 attention_mask = batch["attention_mask"].to(self.device)
                 outputs = self.model_bert(
@@ -304,6 +329,32 @@ class ModelTrainer:
             W_BERT * all_probs_bert + W_SVC * probs_svc + W_XGB * probs_xgb
         )
         ensemble_preds = np.argmax(ensemble_probs, axis=1)
+
+        return (
+            all_probs_bert, probs_svc, probs_xgb,
+            all_preds_bert, preds_svc, preds_xgb,
+            ensemble_preds, ensemble_probs,
+            W_BERT, W_SVC, W_XGB,
+        )
+
+    # ------------------------------------------------------------------
+    # Evaluate (mode: label tersedia)
+    # ------------------------------------------------------------------
+    def test_all_models(self):
+        """Evaluasi semua model pada test set dan tampilkan perbandingan.
+
+        Hanya dipanggil ketika self.has_test_labels == True.
+        """
+        print(f"\n{'='*60}")
+        print(f"  EVALUASI PADA TEST SET")
+        print(f"{'='*60}")
+
+        (
+            all_probs_bert, probs_svc, probs_xgb,
+            all_preds_bert, preds_svc, preds_xgb,
+            ensemble_preds, ensemble_probs,
+            W_BERT, W_SVC, W_XGB,
+        ) = self._run_inference()
 
         # --- Metrics ---
         models = {
@@ -345,7 +396,75 @@ class ModelTrainer:
         print(f"  Best: {best_name} (F1: {best_f1:.4f})")
         print(f"{'='*60}")
 
-        # Store ensemble probs for saving
+        # Store ensemble weights for save_models()
+        self._ensemble_weights = {"indobert": W_BERT, "linearsvc": W_SVC, "xgboost": W_XGB}
+
+    # ------------------------------------------------------------------
+    # Predict only (mode: tanpa label)
+    # ------------------------------------------------------------------
+    def predict_only(self, output_dir: str = None):
+        """Prediksi Kategori untuk setiap baris test set tanpa label.
+
+        Menggunakan ensemble soft-voting dari ketiga model terlatih.
+        Hasil disimpan HANYA ke data/output/test_prediction.csv.
+        File data/processed/test_cleaned.csv tidak dimodifikasi.
+
+        Args:
+            output_dir: Direktori output. Default: config.OUTPUT_DATA_DIR.
+        """
+        print(f"\n{'='*60}")
+        print(f"  PREDIKSI TEST SET (mode: tanpa label)")
+        print(f"{'='*60}")
+
+        (
+            _, _, _,
+            _, _, _,
+            ensemble_preds, _,
+            W_BERT, W_SVC, W_XGB,
+        ) = self._run_inference()
+
+        # Decode prediksi ke nama kelas
+        predicted_labels = self.le.inverse_transform(ensemble_preds)
+
+        # Susun DataFrame output — pertahankan urutan baris asli
+        result_df = self.df_test.copy()
+        result_df[config.LABEL_COLUMN] = predicted_labels
+
+        # Kolom output: Log Temuan, Kategori (prediksi), cleaned_text
+        cols_order = []
+        if config.INPUT_COLUMN in result_df.columns:
+            cols_order.append(config.INPUT_COLUMN)
+        cols_order.append(config.LABEL_COLUMN)
+        if config.OUTPUT_COLUMN in result_df.columns:
+            cols_order.append(config.OUTPUT_COLUMN)
+        # Tambahkan kolom lain yang mungkin ada
+        for col in result_df.columns:
+            if col not in cols_order:
+                cols_order.append(col)
+        result_df = result_df[cols_order]
+
+        # Tentukan path output
+        if output_dir is None:
+            output_dir = os.path.join(config.BASE_DIR, "data", "output")
+        os.makedirs(output_dir, exist_ok=True)
+        prediction_path = os.path.join(output_dir, "test_prediction.csv")
+
+        result_df.to_csv(prediction_path, index=False, encoding="utf-8")
+
+        # Juga timpa test_cleaned.csv agar downstream tetap konsisten
+        processed_test_path = os.path.join(config.PROCESSED_DATA_DIR, "test_cleaned.csv")
+        result_df.to_csv(processed_test_path, index=False, encoding="utf-8")
+
+        # Ringkasan
+        print(f"\n  Prediksi selesai: {len(result_df)} baris")
+        print(f"  Distribusi prediksi:")
+        for cls, count in result_df[config.LABEL_COLUMN].value_counts().items():
+            print(f"    {cls}: {count}")
+        print(f"\n  [OK] Hasil disimpan ke  : {prediction_path}")
+        print(f"  [OK] test_cleaned.csv diperbarui: {processed_test_path}")
+        print(f"{'='*60}")
+
+        # Store ensemble weights for save_models()
         self._ensemble_weights = {"indobert": W_BERT, "linearsvc": W_SVC, "xgboost": W_XGB}
 
     # ------------------------------------------------------------------
@@ -417,11 +536,21 @@ class ModelTrainer:
     # Run All
     # ------------------------------------------------------------------
     def run(self):
-        """Jalankan full pipeline: load → train → test → save."""
+        """Jalankan full pipeline: load → train → evaluasi/prediksi → save.
+
+        Otomatis memilih mode:
+          - Evaluasi : jika test set memiliki label valid (has_test_labels=True)
+          - Prediksi : jika test set tidak memiliki label (has_test_labels=False)
+        """
         self.load_data()
         self.train_indobert()
         self.train_linearsvc()
         self.train_xgboost()
-        self.test_all_models()
+
+        if self.has_test_labels:
+            self.test_all_models()
+        else:
+            self.predict_only()
+
         self.save_models()
         print(f"\n  [OK] Semua model berhasil dilatih dan disimpan!\n")
