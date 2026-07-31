@@ -1,74 +1,79 @@
-# 🔬 Auto-Severity Classification — Text Preprocessing Pipeline
+# Auto-Severity Classification Pipeline
 
-Pipeline pemrosesan teks otomatis untuk mengklasifikasikan tingkat keparahan temuan/bug pada sistem **Web Simata**.
+Pipeline klasifikasi otomatis tingkat keparahan temuan/bug dari teks "Log Temuan" tester pada sistem **Web Simata**.
 
-## 📋 Deskripsi
+## Deskripsi
 
-Modul ini merupakan **Tahap 1** dari sistem Auto-Severity Classification yang memproses teks mentah "Log Temuan" dari tester menjadi token bersih yang siap digunakan untuk modelling (Tahap 2).
+Sistem ini memproses teks mentah dari tester, melatih tiga model klasifikasi secara paralel, lalu menggabungkan hasilnya melalui soft-voting ensemble untuk memprediksi label severity: **Fatal**, **Mayor**, **Minor**, atau **Kosmetik**.
 
-## 🏗️ Arsitektur Pipeline
+## System Flow
 
-```
-Input Text (raw "Log Temuan")
-    │
-    ├─ Tahap 1: Word Segmentation & Boundary Splitting  (symspellpy + regex)
-    ├─ Tahap 2: Case Folding / Lowercasing               (str.lower())
-    ├─ Tahap 3: Regex Cleaning                            (re — NFA/DFA)
-    ├─ Tahap 4: Dynamic Slang Normalization               (HashMap Lookup)
-    └─ Tahap 5: Filtering & Custom Stopwords              (PySastrawi + Whitelist)
-    │
-Output Text (clean tokens)
-```
+![System Flow](images/systemflow.png)
 
-## 📂 Struktur Proyek
+## Struktur Proyek
 
 ```
 implement-automation/
 ├── data/
-│   ├── raw/                          # Dataset CSV mentah
-│   ├── processed/                    # Output hasil preprocessing
-│   └── dictionaries/                 # Kamus slang & frequency dict
-├── preprocessing/                    # Modul preprocessing (5 tahap)
+│   ├── raw/                    # CSV mentah (train_data.csv, test_data.csv)
+│   ├── processed/              # Output preprocessing (*_cleaned.csv, *_embeddings.npy)
+│   ├── output/                 # Hasil prediksi (test_prediction.csv)
+│   ├── dictionaries/           # kamus_slang.csv, id_freq_dict.txt
+│   └── test/                   # Folder eksperimen
+├── models/                     # Artifact model tersimpan
+│   ├── indobert_severity.pt
+│   ├── tfidf_vectorizer.pkl
+│   ├── linearsvc_model.pkl
+│   ├── xgboost_model.pkl
+│   ├── label_encoder.pkl
+│   └── ensemble_config.json
+├── preprocessing/
 │   ├── __init__.py
-│   ├── pipeline.py                   # Orchestrator
-│   ├── word_segmenter.py             # Tahap 1
-│   ├── case_folder.py                # Tahap 2
-│   ├── regex_cleaner.py              # Tahap 3
-│   ├── slang_normalizer.py           # Tahap 4
-│   └── stopword_filter.py           # Tahap 5
-├── main.py                           # CLI Entry Point
-├── config.py                         # Konfigurasi global
-├── requirements.txt                  # Dependencies
-└── README.md                         # Dokumentasi (file ini)
+│   ├── pipeline.py             # Orchestrator preprocessing (2 tahap)
+│   ├── text_cleaner.py         # Tahap 1: Regex cleaning (10 sub-step)
+│   ├── slang_normalizer.py     # Normalisasi slang Bahasa Indonesia
+│   └── feature_extractor.py   # Tahap 2: IndoBERT embedding
+├── notebooks/
+│   └── 03_model_training.ipynb
+├── main.py                     # CLI entry point
+├── trainer.py                  # Training & evaluasi ketiga model
+├── config.py                   # Konfigurasi global (path, parameter)
+└── requirements.txt
 ```
 
-## 🚀 Instalasi & Penggunaan
-
-### 1. Install Dependencies
+## Instalasi
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### 2. Mode Batch (Proses CSV)
+## Penggunaan
+
+Jalankan pipeline melalui CLI:
 
 ```bash
-python main.py --input data/raw/dataset_temuan_sample.csv --output data/processed/dataset_cleaned.csv
+python main.py
 ```
 
-Dengan output verbose per tahap:
+Muncul menu:
 
-```bash
-python main.py --input data/raw/dataset_temuan_sample.csv --verbose
+```
+[1] Upload file CSV baru (Train + Test)
+[2] Gunakan data yang sudah ada (langsung training)
+[0] Keluar
 ```
 
-### 3. Mode Interaktif (Testing Manual)
+- Pilih `[1]` untuk upload `train_data.csv` dan `test_data.csv` baru via file dialog, lalu preprocessing otomatis dijalankan sebelum training.
+- Pilih `[2]` jika data di `data/processed/` sudah ada, langsung lanjut ke training.
 
-```bash
-python main.py --interactive
-```
+### Format CSV yang dibutuhkan
 
-### 4. Penggunaan sebagai Library
+| Kolom | Keterangan |
+|---|---|
+| `Log Temuan` | Teks bug report mentah dari tester (wajib) |
+| `Kategori` | Label severity (wajib di train, opsional di test) |
+
+### Penggunaan sebagai library
 
 ```python
 from preprocessing import PreprocessingPipeline
@@ -76,30 +81,51 @@ from preprocessing import PreprocessingPipeline
 pipeline = PreprocessingPipeline()
 
 # Proses satu teks
-result = pipeline.preprocess_text("1)tidak bisa login, error500 muncul")
+result = pipeline.preprocess_text("1)tombolSimpan error500 tdk berfungsi")
 print(result)
+# → "tombol simpan error 500 tidak berfungsi"
 
-# Proses DataFrame
-import pandas as pd
-df = pd.read_csv("data/raw/dataset.csv")
-df_clean = pipeline.preprocess_dataframe(df)
+# Proses CSV langsung
+result_df = pipeline.preprocess_csv(
+    input_path="data/raw/train_data.csv",
+    output_path="data/processed/train_cleaned.csv"
+)
 ```
 
-## ⚙️ Konfigurasi
+## Konfigurasi
 
 Edit `config.py` untuk mengatur:
 
-- **Path** file data & dictionary
-- **Whitelist** kata negasi & severity indicators
-- **Toggle** on/off setiap tahap pipeline
-- **SymSpell** parameters
+| Parameter | Default | Keterangan |
+|---|---|---|
+| `INDOBERT_MODEL_NAME` | `indobenchmark/indobert-base-p1` | Model HuggingFace yang digunakan |
+| `INDOBERT_MAX_LENGTH` | `128` | Panjang maksimum token |
+| `INDOBERT_BATCH_SIZE` | `32` | Ukuran batch saat embedding |
+| `INPUT_COLUMN` | `Log Temuan` | Nama kolom teks input |
+| `LABEL_COLUMN` | `Kategori` | Nama kolom label |
+| `PIPELINE_STAGES` | keduanya `True` | Toggle aktif/nonaktif tiap tahap |
 
-## 📚 Teknologi
+## Teknologi
 
-| Tahap | Teknologi | Algoritma |
-|-------|-----------|-----------|
-| Word Segmentation | `symspellpy`, `re` | Viterbi Algorithm, Regex Boundary Matching |
-| Case Folding | `str.lower()` | Unicode/ASCII Case Mapping |
-| Regex Cleaning | `re` | NFA/DFA Pattern Matching Engine |
-| Slang Normalization | `pandas`, `dict` | Hash Map Lookup O(1) |
-| Stopword Filtering | `PySastrawi` | Set Membership Filtering (Hash Set) |
+| Komponen | Library | Peran |
+|---|---|---|
+| Text Cleaning | `re` (built-in) | 10 sub-tahap regex: HTML preservation, CamelCase splitting, URL removal, dll |
+| Slang Normalization | `pandas`, `dict` | Hash map O(1) lookup dari `kamus_slang.csv` |
+| Feature Extraction | `transformers`, `torch` | IndoBERT encoder — menghasilkan embedding 768-dim per teks |
+| BERT Classifier | `transformers`, `torch` | Fine-tuned classification head, 4 epoch, AdamW + LinearWarmup |
+| TF-IDF | `scikit-learn` | Unigram + bigram vectorizer, 10.000 fitur, sublinear TF |
+| LinearSVC | `scikit-learn` | SVM linear dengan `CalibratedClassifierCV` (cv=5) untuk probabilitas |
+| XGBoost | `xgboost` | Gradient Boosted Trees, 200 estimator |
+| Ensemble | `numpy` | Soft-voting dengan bobot 0.5 / 0.25 / 0.25 |
+
+## Output
+
+Hasil prediksi disimpan di `data/output/test_prediction.csv`:
+
+| Kolom | Isi |
+|---|---|
+| `Log Temuan` | Teks asli dari tester |
+| `Kategori` | Label prediksi: Fatal / Mayor / Minor / Kosmetik |
+| `cleaned_text` | Teks setelah preprocessing |
+
+Model artifact tersimpan di `models/` dan dapat digunakan kembali tanpa training ulang.
