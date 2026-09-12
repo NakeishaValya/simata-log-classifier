@@ -2,11 +2,7 @@
 **/__pycache__/
 *.py[cod]
 *$py.class
-
-# Data Directory (abaikan dataset mentah & hasil pemrosesan jika ukurannya besar/sensitif)
-data/processed/
-data/raw/
-
+ 
 # Virtual Environment
 venv/
 .venv/
