@@ -1,0 +1,107 @@
+Log Temuan,Kategori,cleaned_text
+1. Terdapat perubahan ID Informasi Penyimpangan dan nama LJK ketika menyimpan&nbsp;data&nbsp;baru<br><br>2. Terdapat perubahan ID Informasi Penyimpangan dan nama LJK ketika approval data,Mayor,1 terdapat perubahan id informasi penyimpangan dan nama ljk ketika menyimpan [html_tag] data [html_tag] baru [html_tag] [html_tag] 2 terdapat perubahan id informasi penyimpangan dan nama ljk ketika approval data
+Audit Trail Status Report (dokumen yang diunggah) belum ada,Mayor,audit trail status report dokumen yang diunggah belum ada
+Audit Trail Status Report (dokumen yang diunggah) belum ada,Mayor,audit trail status report dokumen yang diunggah belum ada
+"Saat set tanggal awal lebih besar dari tanggal akhir, muncul pesan error. Berlaku pada menu aktivitas pengguna dan email keluar",Mayor,saat set tanggal awal lebih besar dari tanggal akhir muncul pesan error berlaku pada menu aktivitas pengguna dan email keluar
+Korepondensi seharusnya Korespondensi,Kosmetik,korepondensi seharusnya korespondensi
+<b>nama file</b> yang terdownload tidak sesuai,Minor,[html_tag] nama file [html_tag] yang terdownload tidak sesuai
+"1. <b>waktu</b> pada halaman Detail tidak tampil
+<br><br>2. progress yang ditambahkan melalui edit data tidak tersimpan",Mayor,1 [html_tag] waktu [html_tag] pada halaman detail tidak tampil [html_tag] [html_tag] 2 progress yang ditambahkan melalui edit data tidak tersimpan
+"1. ketika upload satu file lampiran naskah dinas formatnya berubah menjadi zip,&nbsp;'namun hanya file dengan extension yang sama dengan file yang diupload yang dapat dibuka<br><br>2. file lampiran naskah dinas hasil download error",Mayor,1 ketika upload satu file lampiran naskah dinas format nya berubah menjadi zip [html_tag] namun hanya file dengan extension yang sama dengan file yang diupload yang dapat dibuka [html_tag] [html_tag] 2 file lampiran naskah dinas hasil download error
+file lampiran naskah dinas hasil download error,Mayor,file lampiran naskah dinas hasil download error
+"<b style=""font-size: 11.36px;"">nama file</b>&nbsp;<b>Naskah Dinas</b> yang terdownload tidak sesuai",Minor,[html_tag] nama file [html_tag] [html_tag] [html_tag] naskah dinas [html_tag] yang terdownload tidak sesuai
+"Typo pada sub judul ""Taskist"", seharusnya ""Tasklist"". (SS)",Kosmetik,typo pada sub judul taskist seharusnya tasklist ss
+Testing 2a123,Minor,testing 2 a 123
+"Setelah simpan draft, button untuk aksi tidak muncul secara otomatis. (SS)<br><br>Mohon disesuaikan untuk sektor ASJI juga.",Minor,setelah simpan draft button untuk aksi tidak muncul secara otomatis ss [html_tag] [html_tag] mohon disesuaikan untuk sektor asji juga
+Nama file hasil export typo pada kata enhancement,Kosmetik,nama file hasil export typo pada kata enhancement
+tesgr<br><br>ok<br><br><b>CD-3/MS.132/2025</b><br>Penyampaian Hasil&nbsp;System Integration Test&nbsp;(SIT) Sistem Informasi Penanganan Dugaan Pelanggaran <i>(SIPEDANG) tse<br>se semua</i>,Minor,tesgr [html_tag] [html_tag] ok [html_tag] [html_tag] [html_tag] cd 3 ms 132 2025 [html_tag] [html_tag] penyampaian hasil [html_tag] system integration test [html_tag] sit sistem informasi penanganan dugaan pelanggaran [html_tag] sipedang tse [html_tag] se semua [html_tag]
+"Ketika memilih periode yang sama, terdapat output status yang berbeda. (SS)
+<br><br>Status <b>Audited</b> akan tertampil ke field yang dipilih lebih dulu, setelah data yg sama dipilih kembali, status berubah menjadi <b>Unaudited</b>.",Minor,ketika memilih periode yang sama terdapat keluaran status yang berbeda ss [html_tag] [html_tag] status [html_tag] audited [html_tag] akan tertampil ke field yang dipilih lebih dulu setelah data yang sama dipilih kembali status berubah menjadi [html_tag] unaudited [html_tag]
+"Pada tab Analisis Kepatuhan di bagian '<b>Analisis Umum', 'Analisis Subtantif', 'Analisis Ketaatan' </b>terdapat data-data redundan / double. (SS)
+<br><br>Mohon disesuaikan juga untuk ASJI.",Mayor,pada tab analisis kepatuhan di bagian [html_tag] analisis umum analisis subtantif analisis ketaatan [html_tag] terdapat data data redundan double ss [html_tag] [html_tag] mohon disesuaikan juga untuk asji
+"Typo pada tab Investasi pada bagian Grafik Investasi ""Protofolio"", seharusnya ""Portofolio""",Kosmetik,typo pada tab investasi pada bagian grafik investasi protofolio seharusnya portofolio
+Terdapat duplicate data pada bagian excel dimana ada 2 tagihan klaim koasuransi,Mayor,terdapat duplicate data pada bagian excel dimana ada 2 tagihan klaim koasuransi
+Error web 500 setelah melakukan click export excel pada data Analisis Rasio Keuangan di Analisis Rasio Keuangan Utama,Mayor,error web 500 setelah melakukan click export excel pada data analisis rasio keuangan di analisis rasio keuangan utama
+Ketika mengeklik tombol Export pada bagian Analisis Rasio Keuangan terdapat Server Error yang berisikan Source Code,Mayor,ketika mengeklik tombol export pada bagian analisis rasio keuangan terdapat server error yang berisikan source code
+Preview Value dropdown catatan pengawas belum rapi ketika dipilih. (SS),Minor,preview value dropdown catatan pengawas belum rapi ketika dipilih ss
+"Timestamp setelah edit data, tidak terupdate. (SS)",Mayor,timestamp setelah edit data tidak terupdate ss
+"Data yang sama dapat ditambah / diapproved, sehingga membuat data menjadi redundan. (SS)
+<br><br>Mohon ditambahkan informasi tambahan untuk faktor pembeda.<br><br>*Mohon sesuaikan ASJI dan ASUM",Minor,data yang sama dapat ditambah diapproved sehingga membuat data menjadi redundan ss [html_tag] [html_tag] mohon ditambahkan informasi tambahan untuk faktor pembeda [html_tag] [html_tag] mohon sesuaikan asji dan asum
+fitur import catatan pengawas fungsinya sama seperti fitur salin (menghapus catatan lama dan mengganti dengan yang baru) (SS)<br>,Minor,fitur import catatan pengawas fungsi nya sama seperti fitur salin menghapus catatan lama dan mengganti dengan yang baru ss [html_tag]
+"Typo pada kata ""Pasar Madal"", seharusnya ""Pasar Modal"". (SS)
+<br><br>*mohon sesuaikan ASUM dan ASJI",Kosmetik,typo pada kata pasar madal seharusnya pasar modal ss [html_tag] [html_tag] mohon sesuaikan asum dan asji
+"Typo ""Terrkait"", seharusnya ""Terkait"". (SS)
+<br><br>*mohon sesuaikan ASJI dan ASUM.",Kosmetik,typo terrkait seharusnya terkait ss [html_tag] [html_tag] mohon sesuaikan asji dan asum
+Warna Legend perlu disesuaikan seperti mockup. (SS),Kosmetik,warna legend perlu disesuaikan seperti mockup ss
+Terdapat perbedaan komponen data antara mapping dengan aplikasi. (SS)<br><br>*mohon sesuaikan ASJI dan ASUM,Minor,terdapat perbedaan komponen data antara mapping dengan aplikasi ss [html_tag] [html_tag] mohon sesuaikan asji dan asum
+"pada bagian chart Jumlah Kontribusi Bruto dan Klaim Bruto serta Pendapatan Underwriting dan Hasil Investasi, tidak menampilkan chart Pendapatan Underwriting dan Hasil Investasi",Mayor,pada bagian chart jumlah kontribusi bruto dan klaim bruto serta pendapatan underwriting dan hasil investasi tidak menampilkan chart pendapatan underwriting dan hasil investasi
+"Klik preview data, tp tidak ada data yg muncul (SS)",Mayor,klik preview data tapi tidak ada data yang muncul ss
+"Blm bisa dilanjutkan pengujian SIT, dikarenakan masih ada proses yg sblmnya sedang on progress (SS)",Mayor,belum bisa dilanjutkan pengujian sit dikarenakan masih ada proses yang sebelumnya sedang on progress ss
+"Ketika sudah simpan data, icon pada kolom aksi engga otomatis muncul (ada delay dan harus di refresh) (SS)",Minor,ketika sudah simpan data icon pada kolom aksi engga otomatis muncul ada delay dan harus di refresh ss
+"1. Based on template acuan, seharusnya pemisah digit angka menggunakan titik dan tidak ada nol di belakang titik (SS)<br><br>2. Grafik Trend tidak sesuai dengan template (SS1)<br><br>Adjust ke file export PDF dan excel",Minor,1 based on template acuan seharusnya pemisah digit angka menggunakan titik dan tidak ada nol di belakang titik ss [html_tag] [html_tag] 2 grafik trend tidak sesuai dengan template ss 1 [html_tag] [html_tag] adjust ke file export pdf dan excel
+"Nomor pada tabel tetap sama di page yang berbeda, sebaiknya penomoran tetap dilanjutkan. (SS)",Minor,nomor pada tabel tetap sama di page yang berbeda sebaiknya penomoran tetap dilanjutkan ss
+"belum terdapat (%) pada Kolom row Risk Based Capital, Total Ekuitas tidak menerangkan (e.g Juta Rp)",Kosmetik,belum terdapat pada kolom row risk based capital total ekuitas tidak menerangkan e tidak juta rp
+"pada bagian konteks pelaporan, jika field diisi dengan &gt;5 karakter dan disave, web langsung ngebug, mungkin bisa ditambah dengan alert (SS)<br><br>",Minor,pada bagian konteks pelaporan jika field diisi dengan [html_tag] 5 karakter dan disave web langsung ngebug mungkin bisa ditambah dengan alert ss [html_tag] [html_tag]
+Key Ratio untuk Risk Based Capital pada Chart tidak sama dengan Risk Based Capital pada EWS,Minor,key ratio untuk risk based capital pada chart tidak sama dengan risk based capital pada ews
+Pada Dashboard masih terdapat tulisan highcharts.com,Kosmetik,pada dashboard masih terdapat tulisan highcharts com
+Kolom tidak sama antara aplikasi dengan template mockup. (SS),Minor,kolom tidak sama antara aplikasi dengan template mockup ss
+"Kolom ""Keterangan Denda"" belum ada. (SS).",Mayor,kolom keterangan denda belum ada ss
+1. Grafik Trend tidak sesuai dengan template (SS)<br><br>Adjust ke file export PDF dan excel,Minor,1 grafik trend tidak sesuai dengan template ss [html_tag] [html_tag] adjust ke file export pdf dan excel
+1. Typo (SS),Kosmetik,1 typo ss
+"Mohon disebutkan error secara informatif, seperti pembatasan pada 'character limit', 'no script language allowed', dll. (SS)",Minor,mohon disebutkan error secara informatif seperti pembatasan pada character limit no script language allowed dll ss
+"Validasi Mandatory belum berjalan, masih dapat dilakukan 'proses' walau tidak melakukan input apapun. (SS)",Mayor,validasi mandatory belum berjalan masih dapat dilakukan proses walau tidak melakukan masukan apapun ss
+Validasi Mandatory belum berjalan. (SS),Mayor,validasi mandatory belum berjalan ss
+Terjadi Bug pada saat menambahkan data pada bagian nomor yang tidak dapat diubah dan berawalan minus. (SS),Minor,terjadi bug pada saat menambahkan data pada bagian nomor yang tidak dapat diubah dan berawalan minus ss
+Label Mandatory belum ada. (SS),Minor,label mandatory belum ada ss
+"ketika session timeout, semua page tidak bisa diakses dan terlihat code",Minor,ketika session timeout semua page tidak bisa diakses dan terlihat code
+Blm sesuai dgn template (SS),Minor,belum sesuai dengan template ss
+Blm sesuai dgn template (SS),Minor,belum sesuai dengan template ss
+1. Data blm sesuai dgn template (SS)<br><br><br><br>,Minor,1 data belum sesuai dengan template ss [html_tag] [html_tag] [html_tag] [html_tag]
+"Data Statistic, Pie Chart, & List Perusahaan tidak sesuai data List Perusahaan. (SS)",Mayor,data statistic pie chart list perusahaan tidak sesuai data list perusahaan ss
+1. Data blm sesuai dgn template (SS)<br><br>Adjust ke file export PDF dan excel,Minor,1 data belum sesuai dengan template ss [html_tag] [html_tag] adjust ke file export pdf dan excel
+1. Data blm sesuai dgn template (SS)<br><br>Adjust ke file export PDF dan excel,Minor,1 data belum sesuai dengan template ss [html_tag] [html_tag] adjust ke file export pdf dan excel
+data tidak sinkron dengan template (SS)<br>,Mayor,data tidak sinkron dengan template ss [html_tag]
+"Rows ""Catatan"" belum ada pada tab Header. (SS)",Kosmetik,rows catatan belum ada pada tab header ss
+Data masih ada yg tidak sinkron dengan template dan ada typo,Mayor,data masih ada yang tidak sinkron dengan template dan ada typo
+"1. ketika mau masuk ke menu tersebut, loading lama dan muncul alert<br><br>2. Preview kertas kerja blm berfungsi",Mayor,1 ketika mau masuk ke menu tersebut loading lama dan muncul alert [html_tag] [html_tag] 2 preview kertas kerja belum berfungsi
+"1. Pesan Error kurang informatif<br>2. Mohon tambahkan tanda mandatory apabila memang diwajibkan isi, krn jika field tsb tidak diisi akan selalu keluar alert<br><br>(SS)",Minor,1 pesan error kurang informatif [html_tag] 2 mohon tambahkan tanda mandatory apabila memang diwajibkan isi karena jika field tersebut tidak diisi akan selalu keluar alert [html_tag] [html_tag] ss
+Terjadi kesalahan pada penulisan formula function ketika expand/buka tab,Kosmetik,terjadi kesalahan pada penulisan formula function ketika expand buka tab
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS1),Mayor,1 terdapat 1 kolom kosong setelah kolom sak [html_tag] [html_tag] 2 kolom pencapaian renbis masih kosong ss 1
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS),Mayor,1 terdapat 1 kolom kosong setelah kolom sak [html_tag] [html_tag] 2 kolom pencapaian renbis masih kosong ss
+"Terjadi Error memunculkan alert pada tombol export pada detail perusahaan, Excel maupun PDF (SS)",Fatal,terjadi error memunculkan alert pada tombol export pada detail perusahaan excel maupun pdf ss
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS),Mayor,1 terdapat 1 kolom kosong setelah kolom sak [html_tag] [html_tag] 2 kolom pencapaian renbis masih kosong ss
+Data di aplikasi belum sesuai dengan template,Mayor,data di aplikasi belum sesuai dengan template
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS),Mayor,1 terdapat 1 kolom kosong setelah kolom sak [html_tag] [html_tag] 2 kolom pencapaian renbis masih kosong ss
+1. Kolom 4 dan kolom 5 kosong (SS)<br><br>2. Seharusnya dropdown kolom 3 deactivated (SS1),Mayor,1 kolom 4 dan kolom 5 kosong ss [html_tag] [html_tag] 2 seharusnya dropdown kolom 3 deactivated ss 1
+Data pada Grafik tidak sesuai dengan data excel dan pdf,Minor,data pada grafik tidak sesuai dengan data excel dan pdf
+Grafik tidak sesuai data pada pdf dan excel (SS),Minor,grafik tidak sesuai data pada pdf dan excel ss
+Gambar Chart tidak sesuai dengan data excel dalam satuan miliar (ss),Minor,gambar chart tidak sesuai dengan data excel dalam satuan miliar ss
+Button edit tidak berfungsi (SS),Mayor,button edit tidak berfungsi ss
+tabel tidak sesuai template (SS)<br><br>,Minor,tabel tidak sesuai template ss [html_tag] [html_tag]
+"1. Gridline tidak sesuai kolom header (SS)<br><br>2. Based on template seharusnya engga ada kolom aksi (SS, SS1)",Minor,1 gridline tidak sesuai kolom header ss [html_tag] [html_tag] 2 based on template seharusnya engga ada kolom aksi ss ss 1
+"Kolom catatan terpisah sehingga menyulitkan cara membaca data, sebaiknya disesuaikan ulang. (SS)",Minor,kolom catatan terpisah sehingga menyulitkan cara membaca data sebaiknya disesuaikan ulang ss
+"Jika data kosong / null, harap diberi tanda ""Data tidak tersedia"". (SS)<br><br>untuk membedakan data gagal tertarik / memang tidak ada data",Minor,jika data kosong null harap diberi tanda data tidak tersedia ss [html_tag] [html_tag] untuk membedakan data gagal tertarik memang tidak ada data
+"Hasil Export PDF dan Excel masih berantakan, mohon disesuaikan utk column auto length. (SS)",Kosmetik,hasil export pdf dan excel masih berantakan mohon disesuaikan untuk column auto length ss
+Field mandatory belum diberikan simbol <b>* (lakukan untuk semua field yang mandatory)</b>,Minor,field mandatory belum diberikan simbol [html_tag] lakukan untuk semua field yang mandatory [html_tag]
+"Saat hapus, notifikasi pada kata di hapus harusnya <b>dihapus</b>",Kosmetik,saat hapus notifikasi pada kata di hapus harusnya [html_tag] dihapus [html_tag]
+"saat awal, input dengan nilai yg sama dengan yang telah ada masih bisa simpan",Mayor,saat awal masukan dengan nilai yang sama dengan yang telah ada masih bisa simpan
+"Saat setelah logout, klik back, masih masuk ke dalam aplikasi, harusnya session timeout dan kembali ke menu login",Mayor,saat setelah logout klik back masih masuk ke dalam aplikasi harusnya session timeout dan kembali ke menu login
+kurang spasi pada kata <b>yang berlaku</b>,Kosmetik,kurang spasi pada kata [html_tag] yang berlaku [html_tag]
+"tabel belum sesuai dengan mockup, contoh blm ada merge untuk risiko bawaan, cek ulang sesuai mockup",Minor,tabel belum sesuai dengan mockup contoh belum ada merge untuk risiko bawaan cek ulang sesuai mockup
+"saat filter nama KAP tertentu, hasil filter juga menampilkan nama KAP lain<br>",Minor,saat filter nama kap tertentu hasil filter juga menampilkan nama kap lain [html_tag]
+"setelah klik detail, blm ada button kembali agar masuk ke halaman list lg",Mayor,setelah klik detail belum ada button kembali agar masuk ke halaman list lagi
+penulisan header tabel belum persis sama dengan struktur data<br>,Kosmetik,penulisan header tabel belum persis sama dengan struktur data [html_tag]
+"Saat klik detail  pada salah satu KAP <b>Perbankan </b>(<b>Chatim</b>), lalu klik edit, datanya berubah menjadi sektor <b>IKNB</b>",Mayor,saat klik detail pada salah satu kap [html_tag] perbankan [html_tag] [html_tag] chatim [html_tag] lalu klik edit data nya berubah menjadi sektor [html_tag] iknb [html_tag]
+"Pada filter terdapat pilihan status aktif, namun pada list data faktor dampak tidak terdapat info mana yg aktif atau tidak aktif, sebaiknya dimunculkan statusnya",Minor,pada filter terdapat pilihan status aktif namun pada list data faktor dampak tidak terdapat info mana yang aktif atau tidak aktif sebaiknya dimunculkan status nya
+nomor dan tanggal tidak berubah ketika di edit<br>,Minor,nomor dan tanggal tidak berubah ketika di edit [html_tag]
+keterangan belum tampil sesuai kondisi<br>,Mayor,keterangan belum tampil sesuai kondisi [html_tag]
+1. tidak ada kolom Sektor pada mockup<br><br>2. tidak ada filter Sektor pada Detail Risiko Bawaan<br><br>3. belum ada button Kembali ke Halaman Sebelumnya<br>,Mayor,1 tidak ada kolom sektor pada mockup [html_tag] [html_tag] 2 tidak ada filter sektor pada detail risiko bawaan [html_tag] [html_tag] 3 belum ada button kembali ke halaman sebelumnya [html_tag]
+"tombol reset pada ""nilai max risiko pengendalian"" tidak berfungsi<br>",Mayor,tombol reset pada nilai max risiko pengendalian tidak berfungsi [html_tag]
+tombol reset saat edit nilai risiko pengendalian tidak berfungsi<br>,Mayor,tombol reset saat edit nilai risiko pengendalian tidak berfungsi [html_tag]
+belum ada tanda mandatory (*)<br>,Mayor,belum ada tanda mandatory [html_tag]
+"Jenis Aktivitas <b>view</b> untuk Menu Home belum menggunakan huruf kapital pada huruf awalnya. Seharusnya ""<b>View</b>""",Kosmetik,jenis aktivitas [html_tag] view [html_tag] untuk menu home belum menggunakan huruf kapital pada huruf awalnya seharusnya [html_tag] view [html_tag]
+1. fitur sorting tidak berfungsi (gambar 1)<br><br>2. fitur sorting pada beberapa kolom belum ada (gambar 2)<br>,Mayor,1 fitur sorting tidak berfungsi gambar 1 [html_tag] [html_tag] 2 fitur sorting pada beberapa kolom belum ada gambar 2 [html_tag]
+1. text belum sesuai mockup (ss1)<br><br>2. text pada tabel belum sesuai struktur data (ss2)<br><br>3. buat header tabel rata tengah<br>,Kosmetik,1 text belum sesuai mockup ss 1 [html_tag] [html_tag] 2 text pada tabel belum sesuai struktur data ss 2 [html_tag] [html_tag] 3 buat header tabel rata tengah [html_tag]
+belum ada delete button<br>,Mayor,belum ada delete button [html_tag]
+1. Fitur search tidak bekerja (gambar 1)<br><br>2. Fitur sorting error (gambar 2)<br><br>3. Fitur sorting selalu mengurutkan secara ascheding (gambar 3)&nbsp;<br>,Mayor,1 fitur search tidak bekerja gambar 1 [html_tag] [html_tag] 2 fitur sorting error gambar 2 [html_tag] [html_tag] 3 fitur sorting selalu mengurutkan secara ascheding gambar 3 [html_tag] [html_tag]
+belum ada tanda mandatory (*)<br>,Mayor,belum ada tanda mandatory [html_tag]
