@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="SIMATA Bug Classifier — Formulir Tambah Log Temuan dengan rekomendasi severity otomatis berbasis AI Soft-Voting Ensemble." />
+  <title>Form Tambah Log Temuan — SIMATA</title>
+  <link rel="stylesheet" href="/static/style.css?v=2" />
+</head>
+<body>
+
+  <!-- ============================================================
+       FORM CARD
+       ============================================================ -->
+  <div class="form-container" id="form-container">
+
+    <!-- ---- Header ---- -->
+    <div class="form-header">
+      <div class="icon">＋</div>
+      <h1>Form Tambah Log Temuan</h1>
+      <div class="api-status disconnected" id="api-status">
+        <span class="status-dot"></span>
+        <span class="status-label">Memeriksa koneksi…</span>
+      </div>
+    </div>
+
+    <!-- ---- Form Body ---- -->
+    <form class="form-body" id="form-log-temuan" autocomplete="off">
+      <div class="form-grid">
+
+        <!-- Row 1: PIC + Modul -->
+        <div class="form-group">
+          <label class="form-label" for="input-pic">
+            PIC Penguji/Tester<span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="input-pic"
+            class="form-input"
+            placeholder="Nama penguji…"
+            value="Nakeisha Valya Shakila"
+          />
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="input-modul">
+            Modul Pengujian<span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="input-modul"
+            class="form-input"
+            placeholder="Nama modul…"
+            value="ETL"
+          />
+        </div>
+
+        <!-- Row 2: Tanggal + Log Temuan -->
+        <div class="form-group">
+          <label class="form-label" for="input-tanggal">
+            Tanggal Test<span class="required">*</span>
+          </label>
+          <input
+            type="date"
+            id="input-tanggal"
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group" style="grid-row: span 2;">
+          <label class="form-label" for="input-log-temuan">
+            Log Temuan<span class="required">*</span>
+          </label>
+          <textarea
+            id="input-log-temuan"
+            class="form-textarea"
+            placeholder="Deskripsikan temuan bug secara detail…"
+          ></textarea>
+          <div class="textarea-hints">
+            Gunakan <kbd>Ctrl</kbd> + <kbd>B</kbd> = <b>Bold</b>,
+            <kbd>Ctrl</kbd> + <kbd>I</kbd> = <i>Italic</i>,
+            <kbd>Ctrl</kbd> + <kbd>U</kbd> = <u>Underline</u>,
+            <kbd>Enter</kbd> = ↵
+          </div>
+        </div>
+
+        <!-- Row 3: Menu/Fungsi -->
+        <div class="form-group">
+          <label class="form-label" for="input-menu">
+            Menu/Fungsi<span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="input-menu"
+            class="form-input"
+            placeholder="Home > Modul > Sub-menu"
+            value="Home > Modul"
+          />
+          <span class="form-hint">Contoh: Administrasi, Audit, Kode Form</span>
+        </div>
+
+        <!-- Row 4: Role + Kategori -->
+        <div class="form-group">
+          <label class="form-label" for="input-role">
+            Role Sebagai<span class="required">*</span>
+          </label>
+          <input
+            type="text"
+            id="input-role"
+            class="form-input"
+            placeholder="Role penguji…"
+            value="Pengawas Perbankan"
+          />
+          <span class="form-hint">Contoh: Administrator, Pengawas, User Dummy</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label" for="select-kategori">
+            Kategori Temuan<span class="required">*</span>
+          </label>
+          <select id="select-kategori" class="form-select">
+            <option value="" disabled selected>— Pilih Kategori —</option>
+            <option value="Fatal">Fatal</option>
+            <option value="Mayor">Mayor</option>
+            <option value="Minor">Minor</option>
+            <option value="Kosmetik">Kosmetik</option>
+          </select>
+          <span class="dropdown-hint" id="dropdown-hint">
+            Silakan pilih melalui dropdown jika rekomendasi tidak sesuai.
+          </span>
+
+          <!-- AI Loading -->
+          <div class="ai-loading" id="ai-loading">
+            <div class="spinner"></div>
+            <span class="spinner-text">Menganalisis teks<span class="dots"></span></span>
+          </div>
+
+          <!-- AI Recommendation Badge -->
+          <div class="ai-recommendation" id="ai-recommendation">
+            <span class="ai-icon">🤖</span>
+            <div>
+              <div class="ai-label">Rekomendasi AI</div>
+              <div class="ai-prediction" id="ai-prediction-text">—</div>
+            </div>
+            <span class="ai-confidence" id="ai-confidence-text">—</span>
+          </div>
+
+          <!-- Probability Bars -->
+          <div class="probability-container" id="probability-container">
+            <div class="prob-title">Distribusi Probabilitas Ensemble</div>
+            <div class="prob-row fatal">
+              <span class="prob-label">Fatal</span>
+              <div class="prob-bar-track">
+                <div class="prob-bar-fill" id="prob-bar-fatal" style="width: 0%"></div>
+              </div>
+              <span class="prob-value" id="prob-val-fatal">0%</span>
+            </div>
+            <div class="prob-row mayor">
+              <span class="prob-label">Mayor</span>
+              <div class="prob-bar-track">
+                <div class="prob-bar-fill" id="prob-bar-mayor" style="width: 0%"></div>
+              </div>
+              <span class="prob-value" id="prob-val-mayor">0%</span>
+            </div>
+            <div class="prob-row minor">
+              <span class="prob-label">Minor</span>
+              <div class="prob-bar-track">
+                <div class="prob-bar-fill" id="prob-bar-minor" style="width: 0%"></div>
+              </div>
+              <span class="prob-value" id="prob-val-minor">0%</span>
+            </div>
+            <div class="prob-row kosmetik">
+              <span class="prob-label">Kosmetik</span>
+              <div class="prob-bar-track">
+                <div class="prob-bar-fill" id="prob-bar-kosmetik" style="width: 0%"></div>
+              </div>
+              <span class="prob-value" id="prob-val-kosmetik">0%</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 5: Keterangan Retest + Upload -->
+        <div class="form-group">
+          <label class="form-label" for="input-retest">
+            Keterangan Retest
+          </label>
+          <textarea
+            id="input-retest"
+            class="form-textarea"
+            placeholder="Opsional…"
+            style="min-height: 80px;"
+          ></textarea>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Upload Gambar</label>
+          <label class="checkbox-group">
+            <input type="checkbox" id="chk-upload" />
+            Lanjut Form Upload Gambar
+          </label>
+        </div>
+
+      </div>
+    </form>
+
+    <!-- ---- Action Buttons ---- -->
+    <div class="form-actions">
+      <button type="button" class="btn btn-cancel" id="btn-cancel">
+        ✕ Batalkan
+      </button>
+      <button type="submit" class="btn btn-save" id="btn-save" form="form-log-temuan">
+        ✓ Simpan
+      </button>
+    </div>
+  </div>
+
+  <script src="/static/app.js?v=2"></script>
+</body>
+</html>
