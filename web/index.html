@@ -1,12 +1,15 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="SIMATA Bug Classifier — Formulir Tambah Log Temuan dengan rekomendasi severity otomatis berbasis AI Soft-Voting Ensemble." />
+  <meta name="description"
+    content="SIMATA Bug Classifier — Formulir Tambah Log Temuan dengan rekomendasi severity otomatis berbasis AI Soft-Voting Ensemble." />
   <title>Form Tambah Log Temuan — SIMATA</title>
-  <link rel="stylesheet" href="/static/style.css?v=2" />
+  <link rel="stylesheet" href="/static/style.css?v=5" />
 </head>
+
 <body>
 
   <!-- ============================================================
@@ -16,12 +19,14 @@
 
     <!-- ---- Header ---- -->
     <div class="form-header">
-      <div class="icon">＋</div>
+      <div class="icon" aria-hidden="true">✚</div>
       <h1>Form Tambah Log Temuan</h1>
+      <!-- [REMARKED] Status koneksi/model tidak ditampilkan di interface.
       <div class="api-status disconnected" id="api-status">
         <span class="status-dot"></span>
         <span class="status-label">Memeriksa koneksi…</span>
       </div>
+      -->
     </div>
 
     <!-- ---- Form Body ---- -->
@@ -33,26 +38,14 @@
           <label class="form-label" for="input-pic">
             PIC Penguji/Tester<span class="required">*</span>
           </label>
-          <input
-            type="text"
-            id="input-pic"
-            class="form-input"
-            placeholder="Nama penguji…"
-            value="Nakeisha Valya Shakila"
-          />
+          <input type="text" id="input-pic" class="form-input" value="Nakeisha Valya Shakila" readonly />
         </div>
 
         <div class="form-group">
           <label class="form-label" for="input-modul">
             Modul Pengujian<span class="required">*</span>
           </label>
-          <input
-            type="text"
-            id="input-modul"
-            class="form-input"
-            placeholder="Nama modul…"
-            value="ETL"
-          />
+          <input type="text" id="input-modul" class="form-input" />
         </div>
 
         <!-- Row 2: Tanggal + Log Temuan -->
@@ -60,22 +53,14 @@
           <label class="form-label" for="input-tanggal">
             Tanggal Test<span class="required">*</span>
           </label>
-          <input
-            type="date"
-            id="input-tanggal"
-            class="form-input"
-          />
+          <input type="date" id="input-tanggal" class="form-input" readonly />
         </div>
 
         <div class="form-group" style="grid-row: span 2;">
           <label class="form-label" for="input-log-temuan">
             Log Temuan<span class="required">*</span>
           </label>
-          <textarea
-            id="input-log-temuan"
-            class="form-textarea"
-            placeholder="Deskripsikan temuan bug secara detail…"
-          ></textarea>
+          <textarea id="input-log-temuan" class="form-textarea"></textarea>
           <div class="textarea-hints">
             Gunakan <kbd>Ctrl</kbd> + <kbd>B</kbd> = <b>Bold</b>,
             <kbd>Ctrl</kbd> + <kbd>I</kbd> = <i>Italic</i>,
@@ -89,13 +74,7 @@
           <label class="form-label" for="input-menu">
             Menu/Fungsi<span class="required">*</span>
           </label>
-          <input
-            type="text"
-            id="input-menu"
-            class="form-input"
-            placeholder="Home > Modul > Sub-menu"
-            value="Home > Modul"
-          />
+          <input type="text" id="input-menu" class="form-input" />
           <span class="form-hint">Contoh: Administrasi, Audit, Kode Form</span>
         </div>
 
@@ -104,13 +83,7 @@
           <label class="form-label" for="input-role">
             Role Sebagai<span class="required">*</span>
           </label>
-          <input
-            type="text"
-            id="input-role"
-            class="form-input"
-            placeholder="Role penguji…"
-            value="Pengawas Perbankan"
-          />
+          <input type="text" id="input-role" class="form-input" />
           <span class="form-hint">Contoh: Administrator, Pengawas, User Dummy</span>
         </div>
 
@@ -184,12 +157,7 @@
           <label class="form-label" for="input-retest">
             Keterangan Retest
           </label>
-          <textarea
-            id="input-retest"
-            class="form-textarea"
-            placeholder="Opsional…"
-            style="min-height: 80px;"
-          ></textarea>
+          <textarea id="input-retest" class="form-textarea" style="min-height: 80px;"></textarea>
         </div>
 
         <div class="form-group">
@@ -214,6 +182,7 @@
     </div>
   </div>
 
-  <script src="/static/app.js?v=2"></script>
+  <script src="/static/app.js?v=5"></script>
 </body>
+
 </html>

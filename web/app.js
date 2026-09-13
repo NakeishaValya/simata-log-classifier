@@ -42,7 +42,6 @@
   // const elAiConfidence = document.getElementById("ai-confidence-text");
   // const elProbContainer = document.getElementById("probability-container");
   const elDropdownHint = document.getElementById("dropdown-hint");
-  const elApiStatus = document.getElementById("api-status");
   const elTanggal = document.getElementById("input-tanggal");
 
   // ================================================================
@@ -97,13 +96,6 @@
 
   function setApiStatus(connected) {
     isApiConnected = connected;
-    if (connected) {
-      elApiStatus.className = "api-status connected";
-      elApiStatus.querySelector(".status-label").textContent = "Model Aktif";
-    } else {
-      elApiStatus.className = "api-status disconnected";
-      elApiStatus.querySelector(".status-label").textContent = "Tidak Terhubung";
-    }
   }
 
   // ================================================================
