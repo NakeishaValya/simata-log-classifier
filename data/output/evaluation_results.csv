@@ -1,0 +1,107 @@
+Log Temuan,Kategori,Prediksi,Confidence,Benar,Prob_Fatal,Prob_Mayor,Prob_Minor,Prob_Kosmetik
+1. Terdapat perubahan ID Informasi Penyimpangan dan nama LJK ketika menyimpan&nbsp;data&nbsp;baru<br><br>2. Terdapat perubahan ID Informasi Penyimpangan dan nama LJK ketika approval data,Mayor,Mayor,0.7588,True,0.0041,0.7588,0.1897,0.0474
+Audit Trail Status Report (dokumen yang diunggah) belum ada,Mayor,Mayor,0.905,True,0.0063,0.905,0.0716,0.0172
+Audit Trail Status Report (dokumen yang diunggah) belum ada,Mayor,Mayor,0.905,True,0.0063,0.905,0.0716,0.0172
+"Saat set tanggal awal lebih besar dari tanggal akhir, muncul pesan error. Berlaku pada menu aktivitas pengguna dan email keluar",Mayor,Mayor,0.7511,True,0.0159,0.7511,0.2162,0.0169
+Korepondensi seharusnya Korespondensi,Kosmetik,Kosmetik,0.3584,True,0.0093,0.3372,0.295,0.3584
+<b>nama file</b> yang terdownload tidak sesuai,Kosmetik,Minor,0.7022,False,0.0049,0.2099,0.7022,0.083
+"1. <b>waktu</b> pada halaman Detail tidak tampil
+<br><br>2. progress yang ditambahkan melalui edit data tidak tersimpan",Mayor,Mayor,0.8849,True,0.0074,0.8849,0.1017,0.006
+"1. ketika upload satu file lampiran naskah dinas formatnya berubah menjadi zip,&nbsp;'namun hanya file dengan extension yang sama dengan file yang diupload yang dapat dibuka<br><br>2. file lampiran naskah dinas hasil download error",Mayor,Mayor,0.8827,True,0.0087,0.8827,0.1036,0.005
+file lampiran naskah dinas hasil download error,Mayor,Mayor,0.856,True,0.0396,0.856,0.0782,0.0261
+"<b style=""font-size: 11.36px;"">nama file</b>&nbsp;<b>Naskah Dinas</b> yang terdownload tidak sesuai",Kosmetik,Minor,0.5944,False,0.0036,0.3447,0.5944,0.0573
+"Typo pada sub judul ""Taskist"", seharusnya ""Tasklist"". (SS)",Kosmetik,Kosmetik,0.9406,True,0.0051,0.0089,0.0454,0.9406
+Testing 2a123,Fatal,Minor,0.4552,False,0.0218,0.3864,0.4552,0.1366
+"Setelah simpan draft, button untuk aksi tidak muncul secara otomatis. (SS)<br><br>Mohon disesuaikan untuk sektor ASJI juga.",Minor,Minor,0.5835,True,0.0156,0.3864,0.5835,0.0145
+Nama file hasil export typo pada kata enhancement,Minor,Kosmetik,0.9467,False,0.0034,0.013,0.037,0.9467
+tesgr<br><br>ok<br><br><b>CD-3/MS.132/2025</b><br>Penyampaian Hasil&nbsp;System Integration Test&nbsp;(SIT) Sistem Informasi Penanganan Dugaan Pelanggaran <i>(SIPEDANG) tse<br>se semua</i>,Fatal,Minor,0.5926,False,0.0211,0.239,0.5926,0.1473
+"Ketika memilih periode yang sama, terdapat output status yang berbeda. (SS)
+<br><br>Status <b>Audited</b> akan tertampil ke field yang dipilih lebih dulu, setelah data yg sama dipilih kembali, status berubah menjadi <b>Unaudited</b>.",Mayor,Minor,0.5519,False,0.0092,0.4228,0.5519,0.0161
+"Pada tab Analisis Kepatuhan di bagian '<b>Analisis Umum', 'Analisis Subtantif', 'Analisis Ketaatan' </b>terdapat data-data redundan / double. (SS)
+<br><br>Mohon disesuaikan juga untuk ASJI.",Minor,Mayor,0.6641,False,0.0078,0.6641,0.2719,0.0563
+"Typo pada tab Investasi pada bagian Grafik Investasi ""Protofolio"", seharusnya ""Portofolio""",Kosmetik,Kosmetik,0.8463,True,0.0047,0.0465,0.1025,0.8463
+Terdapat duplicate data pada bagian excel dimana ada 2 tagihan klaim koasuransi,Minor,Mayor,0.4917,False,0.01,0.4917,0.3554,0.1429
+Error web 500 setelah melakukan click export excel pada data Analisis Rasio Keuangan di Analisis Rasio Keuangan Utama,Mayor,Mayor,0.7124,True,0.0977,0.7124,0.1558,0.0341
+Ketika mengeklik tombol Export pada bagian Analisis Rasio Keuangan terdapat Server Error yang berisikan Source Code,Fatal,Mayor,0.7588,False,0.0473,0.7588,0.1562,0.0377
+Preview Value dropdown catatan pengawas belum rapi ketika dipilih. (SS),Kosmetik,Minor,0.5863,False,0.0186,0.3531,0.5863,0.042
+"Timestamp setelah edit data, tidak terupdate. (SS)",Minor,Mayor,0.455,False,0.0468,0.455,0.447,0.0512
+"Data yang sama dapat ditambah / diapproved, sehingga membuat data menjadi redundan. (SS)
+<br><br>Mohon ditambahkan informasi tambahan untuk faktor pembeda.<br><br>*Mohon sesuaikan ASJI dan ASUM",Mayor,Minor,0.507,False,0.0061,0.4301,0.507,0.0568
+fitur import catatan pengawas fungsinya sama seperti fitur salin (menghapus catatan lama dan mengganti dengan yang baru) (SS)<br>,Mayor,Minor,0.5069,False,0.0332,0.4025,0.5069,0.0573
+"Typo pada kata ""Pasar Madal"", seharusnya ""Pasar Modal"". (SS)
+<br><br>*mohon sesuaikan ASUM dan ASJI",Kosmetik,Kosmetik,0.9063,True,0.0052,0.0253,0.0631,0.9063
+"Typo ""Terrkait"", seharusnya ""Terkait"". (SS)
+<br><br>*mohon sesuaikan ASJI dan ASUM.",Kosmetik,Kosmetik,0.8585,True,0.0031,0.043,0.0954,0.8585
+Warna Legend perlu disesuaikan seperti mockup. (SS),Kosmetik,Kosmetik,0.8166,True,0.0114,0.0311,0.1409,0.8166
+Terdapat perbedaan komponen data antara mapping dengan aplikasi. (SS)<br><br>*mohon sesuaikan ASJI dan ASUM,Minor,Minor,0.7217,True,0.0062,0.1138,0.7217,0.1584
+"pada bagian chart Jumlah Kontribusi Bruto dan Klaim Bruto serta Pendapatan Underwriting dan Hasil Investasi, tidak menampilkan chart Pendapatan Underwriting dan Hasil Investasi",Minor,Mayor,0.7033,False,0.0338,0.7033,0.1989,0.0639
+"Klik preview data, tp tidak ada data yg muncul (SS)",Minor,Mayor,0.8263,False,0.0684,0.8263,0.0971,0.0082
+"Blm bisa dilanjutkan pengujian SIT, dikarenakan masih ada proses yg sblmnya sedang on progress (SS)",Minor,Mayor,0.473,False,0.4285,0.473,0.0722,0.0263
+"Ketika sudah simpan data, icon pada kolom aksi engga otomatis muncul (ada delay dan harus di refresh) (SS)",Minor,Minor,0.3838,True,0.1907,0.3835,0.3838,0.042
+"1. Based on template acuan, seharusnya pemisah digit angka menggunakan titik dan tidak ada nol di belakang titik (SS)<br><br>2. Grafik Trend tidak sesuai dengan template (SS1)<br><br>Adjust ke file export PDF dan excel",Kosmetik,Minor,0.6439,False,0.0034,0.2737,0.6439,0.079
+"Nomor pada tabel tetap sama di page yang berbeda, sebaiknya penomoran tetap dilanjutkan. (SS)",Kosmetik,Minor,0.7702,False,0.0083,0.0502,0.7702,0.1713
+"belum terdapat (%) pada Kolom row Risk Based Capital, Total Ekuitas tidak menerangkan (e.g Juta Rp)",Minor,Kosmetik,0.5609,False,0.0108,0.192,0.2363,0.5609
+"pada bagian konteks pelaporan, jika field diisi dengan &gt;5 karakter dan disave, web langsung ngebug, mungkin bisa ditambah dengan alert (SS)<br><br>",Minor,Minor,0.7461,True,0.0074,0.1905,0.7461,0.0561
+Key Ratio untuk Risk Based Capital pada Chart tidak sama dengan Risk Based Capital pada EWS,Mayor,Minor,0.5668,False,0.0178,0.3013,0.5668,0.1141
+Pada Dashboard masih terdapat tulisan highcharts.com,Kosmetik,Kosmetik,0.6513,True,0.0082,0.1469,0.1936,0.6513
+Kolom tidak sama antara aplikasi dengan template mockup. (SS),Mayor,Minor,0.7752,False,0.0084,0.1305,0.7752,0.086
+"Kolom ""Keterangan Denda"" belum ada. (SS).",Mayor,Mayor,0.5829,True,0.0129,0.5829,0.335,0.0692
+1. Grafik Trend tidak sesuai dengan template (SS)<br><br>Adjust ke file export PDF dan excel,Minor,Minor,0.7246,True,0.0029,0.2026,0.7246,0.0699
+1. Typo (SS),Kosmetik,Kosmetik,0.9006,True,0.0089,0.0339,0.0567,0.9006
+"Mohon disebutkan error secara informatif, seperti pembatasan pada 'character limit', 'no script language allowed', dll. (SS)",Minor,Minor,0.5678,True,0.1101,0.1519,0.5678,0.1702
+"Validasi Mandatory belum berjalan, masih dapat dilakukan 'proses' walau tidak melakukan input apapun. (SS)",Minor,Mayor,0.7051,False,0.2055,0.7051,0.0814,0.008
+Validasi Mandatory belum berjalan. (SS),Minor,Mayor,0.658,False,0.143,0.658,0.1485,0.0505
+Terjadi Bug pada saat menambahkan data pada bagian nomor yang tidak dapat diubah dan berawalan minus. (SS),Minor,Minor,0.4125,True,0.1611,0.375,0.4125,0.0514
+Label Mandatory belum ada. (SS),Kosmetik,Minor,0.5934,False,0.0185,0.2233,0.5934,0.1648
+"ketika session timeout, semua page tidak bisa diakses dan terlihat code",Fatal,Minor,0.4939,False,0.1341,0.3342,0.4939,0.0378
+Blm sesuai dgn template (SS),Kosmetik,Minor,0.5267,False,0.0071,0.1166,0.5267,0.3497
+Blm sesuai dgn template (SS),Kosmetik,Minor,0.5267,False,0.0071,0.1166,0.5267,0.3497
+1. Data blm sesuai dgn template (SS)<br><br><br><br>,Minor,Minor,0.6935,True,0.0039,0.1958,0.6935,0.1067
+"Data Statistic, Pie Chart, & List Perusahaan tidak sesuai data List Perusahaan. (SS)",Mayor,Mayor,0.6685,True,0.0395,0.6685,0.189,0.1029
+1. Data blm sesuai dgn template (SS)<br><br>Adjust ke file export PDF dan excel,Minor,Minor,0.6996,True,0.0024,0.1943,0.6996,0.1038
+1. Data blm sesuai dgn template (SS)<br><br>Adjust ke file export PDF dan excel,Minor,Minor,0.6996,True,0.0024,0.1943,0.6996,0.1038
+data tidak sinkron dengan template (SS)<br>,Minor,Mayor,0.6365,False,0.0239,0.6365,0.2769,0.0627
+"Rows ""Catatan"" belum ada pada tab Header. (SS)",Minor,Kosmetik,0.5611,False,0.0079,0.1688,0.2622,0.5611
+Data masih ada yg tidak sinkron dengan template dan ada typo,Kosmetik,Mayor,0.6031,False,0.0049,0.6031,0.2281,0.1638
+"1. ketika mau masuk ke menu tersebut, loading lama dan muncul alert<br><br>2. Preview kertas kerja blm berfungsi",Mayor,Mayor,0.7986,True,0.1271,0.7986,0.06,0.0143
+"1. Pesan Error kurang informatif<br>2. Mohon tambahkan tanda mandatory apabila memang diwajibkan isi, krn jika field tsb tidak diisi akan selalu keluar alert<br><br>(SS)",Minor,Minor,0.787,True,0.0143,0.0923,0.787,0.1063
+Terjadi kesalahan pada penulisan formula function ketika expand/buka tab,Mayor,Kosmetik,0.6356,False,0.0148,0.2055,0.1441,0.6356
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS1),Minor,Mayor,0.7088,False,0.003,0.7088,0.2573,0.031
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS),Minor,Mayor,0.6948,False,0.0034,0.6948,0.2701,0.0317
+"Terjadi Error memunculkan alert pada tombol export pada detail perusahaan, Excel maupun PDF (SS)",Mayor,Fatal,0.4267,False,0.4267,0.3904,0.1039,0.079
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS),Minor,Mayor,0.6948,False,0.0034,0.6948,0.2701,0.0317
+Data di aplikasi belum sesuai dengan template,Minor,Mayor,0.7282,False,0.0122,0.7282,0.1506,0.1091
+1.Terdapat 1 kolom kosong setelah kolom SAK<br><br>2. Kolom pencapaian renbis % masih kosong (SS),Minor,Mayor,0.6948,False,0.0034,0.6948,0.2701,0.0317
+1. Kolom 4 dan kolom 5 kosong (SS)<br><br>2. Seharusnya dropdown kolom 3 deactivated (SS1),Minor,Mayor,0.6129,False,0.0029,0.6129,0.2818,0.1025
+Data pada Grafik tidak sesuai dengan data excel dan pdf,Minor,Minor,0.6091,True,0.0054,0.3469,0.6091,0.0387
+Grafik tidak sesuai data pada pdf dan excel (SS),Minor,Minor,0.726,True,0.0066,0.204,0.726,0.0633
+Gambar Chart tidak sesuai dengan data excel dalam satuan miliar (ss),Kosmetik,Minor,0.6076,False,0.0059,0.3143,0.6076,0.0722
+Button edit tidak berfungsi (SS),Minor,Mayor,0.6826,False,0.0348,0.6826,0.233,0.0496
+tabel tidak sesuai template (SS)<br><br>,Minor,Minor,0.7426,True,0.0047,0.1774,0.7426,0.0753
+"1. Gridline tidak sesuai kolom header (SS)<br><br>2. Based on template seharusnya engga ada kolom aksi (SS, SS1)",Minor,Minor,0.4869,True,0.0044,0.2543,0.4869,0.2543
+"Kolom catatan terpisah sehingga menyulitkan cara membaca data, sebaiknya disesuaikan ulang. (SS)",Minor,Minor,0.7647,True,0.0258,0.1025,0.7647,0.107
+"Jika data kosong / null, harap diberi tanda ""Data tidak tersedia"". (SS)<br><br>untuk membedakan data gagal tertarik / memang tidak ada data",Kosmetik,Minor,0.6181,False,0.0106,0.3465,0.6181,0.0247
+"Hasil Export PDF dan Excel masih berantakan, mohon disesuaikan utk column auto length. (SS)",Minor,Kosmetik,0.5434,False,0.0157,0.159,0.2818,0.5434
+Field mandatory belum diberikan simbol <b>* (lakukan untuk semua field yang mandatory)</b>,Minor,Minor,0.7136,True,0.008,0.1733,0.7136,0.105
+"Saat hapus, notifikasi pada kata di hapus harusnya <b>dihapus</b>",Kosmetik,Kosmetik,0.7544,True,0.0038,0.0534,0.1884,0.7544
+"saat awal, input dengan nilai yg sama dengan yang telah ada masih bisa simpan",Mayor,Mayor,0.8711,True,0.005,0.8711,0.0916,0.0323
+"Saat setelah logout, klik back, masih masuk ke dalam aplikasi, harusnya session timeout dan kembali ke menu login",Mayor,Mayor,0.6852,True,0.0853,0.6852,0.2138,0.0157
+kurang spasi pada kata <b>yang berlaku</b>,Kosmetik,Kosmetik,0.8964,True,0.0035,0.0284,0.0717,0.8964
+"tabel belum sesuai dengan mockup, contoh blm ada merge untuk risiko bawaan, cek ulang sesuai mockup",Minor,Minor,0.5581,True,0.0045,0.3527,0.5581,0.0847
+"saat filter nama KAP tertentu, hasil filter juga menampilkan nama KAP lain<br>",Mayor,Minor,0.6966,False,0.0057,0.1514,0.6966,0.1463
+"setelah klik detail, blm ada button kembali agar masuk ke halaman list lg",Mayor,Mayor,0.744,True,0.0127,0.744,0.2213,0.022
+penulisan header tabel belum persis sama dengan struktur data<br>,Kosmetik,Kosmetik,0.4514,True,0.0052,0.1067,0.4367,0.4514
+"Saat klik detail  pada salah satu KAP <b>Perbankan </b>(<b>Chatim</b>), lalu klik edit, datanya berubah menjadi sektor <b>IKNB</b>",Fatal,Mayor,0.5969,False,0.0402,0.5969,0.3321,0.0308
+"Pada filter terdapat pilihan status aktif, namun pada list data faktor dampak tidak terdapat info mana yg aktif atau tidak aktif, sebaiknya dimunculkan statusnya",Mayor,Minor,0.6605,False,0.0092,0.2952,0.6605,0.0351
+nomor dan tanggal tidak berubah ketika di edit<br>,Mayor,Minor,0.6243,False,0.0091,0.2871,0.6243,0.0794
+keterangan belum tampil sesuai kondisi<br>,Mayor,Mayor,0.8698,True,0.0073,0.8698,0.0978,0.0251
+1. tidak ada kolom Sektor pada mockup<br><br>2. tidak ada filter Sektor pada Detail Risiko Bawaan<br><br>3. belum ada button Kembali ke Halaman Sebelumnya<br>,Mayor,Mayor,0.9025,True,0.0036,0.9025,0.0854,0.0085
+"tombol reset pada ""nilai max risiko pengendalian"" tidak berfungsi<br>",Mayor,Mayor,0.7089,True,0.0191,0.7089,0.2189,0.053
+tombol reset saat edit nilai risiko pengendalian tidak berfungsi<br>,Mayor,Mayor,0.7646,True,0.0117,0.7646,0.1691,0.0546
+belum ada tanda mandatory (*)<br>,Kosmetik,Mayor,0.5386,False,0.0084,0.5386,0.1691,0.2839
+"Jenis Aktivitas <b>view</b> untuk Menu Home belum menggunakan huruf kapital pada huruf awalnya. Seharusnya ""<b>View</b>""",Kosmetik,Kosmetik,0.6667,True,0.0084,0.1262,0.1987,0.6667
+1. fitur sorting tidak berfungsi (gambar 1)<br><br>2. fitur sorting pada beberapa kolom belum ada (gambar 2)<br>,Minor,Mayor,0.9101,False,0.0077,0.9101,0.0623,0.0199
+1. text belum sesuai mockup (ss1)<br><br>2. text pada tabel belum sesuai struktur data (ss2)<br><br>3. buat header tabel rata tengah<br>,Kosmetik,Kosmetik,0.7547,True,0.0025,0.0917,0.151,0.7547
+belum ada delete button<br>,Mayor,Mayor,0.8621,True,0.0088,0.8621,0.0897,0.0395
+1. Fitur search tidak bekerja (gambar 1)<br><br>2. Fitur sorting error (gambar 2)<br><br>3. Fitur sorting selalu mengurutkan secara ascheding (gambar 3)&nbsp;<br>,Mayor,Mayor,0.7979,True,0.019,0.7979,0.155,0.0281
+belum ada tanda mandatory (*)<br>,Kosmetik,Mayor,0.5386,False,0.0084,0.5386,0.1691,0.2839
