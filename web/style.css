@@ -268,6 +268,21 @@ body {
   border-color: var(--gray-300);
 }
 
+/* Readonly fields — abu muda agar berbeda dari field yang bisa diedit */
+.form-input[readonly] {
+  background: var(--gray-100);
+  color: var(--gray-500);
+  cursor: not-allowed;
+  border-color: var(--gray-200);
+}
+
+.form-input[readonly]:hover,
+.form-input[readonly]:focus {
+  border-color: var(--gray-200);
+  box-shadow: none;
+  background: var(--gray-100);
+}
+
 .form-input:focus,
 .form-textarea:focus,
 .form-select:focus {
